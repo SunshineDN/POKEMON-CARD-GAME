@@ -47,7 +47,7 @@ function escreverPokeJogador(pokemon) {
         <h1 class="card-title">Sua carta</h1>
                 <div class="pokemon-card">
                     <div class="background ${pokeType + 2}">
-                        <img src="${pokeUrl}" alt="" class="image">
+                        <img src="${pokeUrl}" alt="Imagem do pokemon ${pokeNameFormat}" class="image">
                     </div>
         
                     <div class="content ${pokeType + 3}">
@@ -92,7 +92,7 @@ function escreverPokeMaq(pokemon) {
         <h1 class="card-title">Carta da máquina</h1>
                 <div class="pokemon-card">
                     <div class="background ${pokeType + 2}">
-                        <img src="${pokeUrl}" alt="" class="image">
+                        <img src="${pokeUrl}" alt="Imagem do pokemon ${pokeNameFormat}" class="image">
                     </div>
         
                     <div class="content ${pokeType + 3}">
@@ -125,7 +125,7 @@ async function SortearPoke() {
     }
     console.log(first, second)
 
-    const poke1 = await fetch(`https://pokeapi.co/api/v2/pokemon/${first}`)
+    await fetch(`https://pokeapi.co/api/v2/pokemon/${first}`)
         .then(response => response.json())
         .then(poke => {
             escreverPokeJogador(poke);
@@ -133,7 +133,7 @@ async function SortearPoke() {
             pokemonJogador = poke;
         })
 
-    const poke2 = await fetch(`https://pokeapi.co/api/v2/pokemon/${second}`)
+    fetch(`https://pokeapi.co/api/v2/pokemon/${second}`)
         .then(response => response.json())
         .then(poke => {
             battleBtn.removeAttribute("disabled");
@@ -159,6 +159,7 @@ function Batalhar() {
     let janela = document.getElementById("window");
     let result = document.getElementById("resultBattle");
     let statsMaq = document.getElementById(`${pokemonMaq.types[0].type.name.toUpperCase() + 4}`);
+    let fullContainer = document.getElementById("fullContainer");
 
     // STATS POKEMON JOGADOR
     let nomeJg = nomePokemon(pokemonJogador);
@@ -279,10 +280,13 @@ function Batalhar() {
     <p>Sp. Defense: ${spDefenseMaq}</p>
     <p>Speed: ${speedMaq}</p>`
 
-    janela.style.animation = "surgir 1.5s ease-in-out 2s 1 forwards"
+    janela.style.display = "flex"
+    fullContainer.style.display = "flex"
 }
 
 function fecharJanela() {
+    let fullContainer = document.getElementById("fullContainer");
     let janela = document.getElementById("window");
-    janela.style.animation = ""
+    janela.style.display = "none";
+    fullContainer.style.display = "none"
 }
